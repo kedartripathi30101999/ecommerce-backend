@@ -34,7 +34,7 @@ const registerUser = async (req, res) => {
     });
 
     await transporter.sendMail({
-       from: `"E-Commerce App" <tripathikd786@gmail.com>`,
+      from: "E-Commerce App <onboarding@resend.dev>",
 
       to: email,
 
@@ -157,7 +157,7 @@ const sendOTP = async (req, res) => {
     await user.save();
 
     await transporter.sendMail({
-      from: `"E-Commerce App" <tripathikd786@gmail.com>`,
+      from: "E-Commerce App <onboarding@resend.dev>",
 
       to: email,
 
@@ -287,7 +287,7 @@ const forgotPassword = async (req, res) => {
     await user.save();
 
     await transporter.sendMail({
-      from: `"E-Commerce App" <tripathikd786@gmail.com>`,
+      from: "E-Commerce App <onboarding@resend.dev>",
 
       to: email,
 
