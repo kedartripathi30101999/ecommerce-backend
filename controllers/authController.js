@@ -1,7 +1,7 @@
 const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const transporter = require("../config/mail");
+const resend = require("../config/mail");
 const generateOTP = require("../utils/generateOTP");
 
 //* Register User
@@ -33,7 +33,7 @@ const registerUser = async (req, res) => {
       isVerified: false,
     });
 
-    await transporter.sendMail({
+    await resend.emails.send({
       from: "E-Commerce App <onboarding@resend.dev>",
 
       to: email,
@@ -156,7 +156,7 @@ const sendOTP = async (req, res) => {
 
     await user.save();
 
-    await transporter.sendMail({
+    await resend.emails.send({
       from: "E-Commerce App <onboarding@resend.dev>",
 
       to: email,
@@ -286,7 +286,7 @@ const forgotPassword = async (req, res) => {
 
     await user.save();
 
-    await transporter.sendMail({
+    await resend.emails.send({
       from: "E-Commerce App <onboarding@resend.dev>",
 
       to: email,

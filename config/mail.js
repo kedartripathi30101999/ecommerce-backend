@@ -1,17 +1,5 @@
-const nodemailer = require("nodemailer");
+const { Resend } = require("resend");
 
-const transporter = nodemailer.createTransport({
-  host: "smtp.resend.com",
+const resend = new Resend(process.env.RESEND_API_KEY);
 
-  port: 465,
-
-  secure: true,
-
-  auth: {
-    user: "resend",
-
-    pass: process.env.RESEND_API_KEY,
-  },
-});
-
-module.exports = transporter;
+module.exports = resend;
