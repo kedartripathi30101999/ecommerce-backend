@@ -1,7 +1,7 @@
 const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const resend = require("../config/mail");
+const sendEmail = require("../config/mail");
 const generateOTP = require("../utils/generateOTP");
 
 //* Register User
@@ -33,8 +33,7 @@ const registerUser = async (req, res) => {
       isVerified: false,
     });
 
-    await resend.emails.send({
-      from: "E-Commerce App <onboarding@resend.dev>",
+    await sendEmail({
 
       to: email,
 
@@ -156,9 +155,8 @@ const sendOTP = async (req, res) => {
 
     await user.save();
 
-    await resend.emails.send({
-      from: "E-Commerce App <onboarding@resend.dev>",
-
+    await sendEmail({
+    
       to: email,
 
       subject: "Email Verification OTP",
@@ -286,9 +284,8 @@ const forgotPassword = async (req, res) => {
 
     await user.save();
 
-    await resend.emails.send({
-      from: "E-Commerce App <onboarding@resend.dev>",
-
+    await sendEmail({
+    
       to: email,
 
       subject: "Password Reset OTP",
