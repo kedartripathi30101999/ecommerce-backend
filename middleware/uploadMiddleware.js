@@ -1,38 +1,35 @@
-const multer= require('multer')
-const path= require('path')
+const multer = require("multer");
+const { CloudinaryStorage } = require("multer-storage-cloudinary");
+const cloudinary = require("../config/cloudinary");
 
-const storage= multer.diskStorage({
-    destination: function(req,file,cb){
-        cb(null, 'uploads/')
-    },
+const storage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: {
+    folder: "ecommerce-products",
+    allowed_formats: ["jpg", "jpeg", "png", "webp"],
+  },
+});
 
-    filename: function(req,file,cb){
-        const uniqueName= Date.now() + "-" + Math.round(Math.random() * 1E9)
+const fileFilter = (req, file, cb) => {
+  const allowedTypes = /jpg|jpeg|png|webp/;
 
-        cb(null, uniqueName + path.extname(file.originalname))
-    }
-})
+  const isValid = allowedTypes.test(
+    file.originalname.split(".").pop().toLowerCase()
+  );
 
+  if (isValid) {
+    cb(null, true);
+  } else {
+    cb(new Error("Only image files are allowed"), false);
+  }
+};
 
-const fileFilter= (req,file,cb)=>{
-    const allowedTypes= /jpg|jpeg|png|webp/
+const upload = multer({
+  storage,
+  fileFilter,
+  limits: {
+    fileSize: 2 * 1024 * 1024,
+  },
+});
 
-    const isValid= allowedTypes.test(path.extname(file.originalname).toLowerCase())
-
-    if(isValid){
-        cb(null, true)
-    }
-    else{
-        cb(new Error('Only image files are allowed'))
-    }
-}
-
-
-const upload= multer({
-    storage,
-    fileFilter,
-    limits:{fileSize: 2* 1024 * 1024}
-})
-
-
-module.exports= upload
+module.exports = upload;
